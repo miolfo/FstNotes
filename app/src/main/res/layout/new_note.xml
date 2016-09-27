@@ -40,7 +40,7 @@
         android:id="@+id/note_time_picker"
         android:timePickerMode="spinner"
         android:layout_marginBottom="25dp"
-        android:layout_above="@+id/datePicker"
+        android:layout_above="@+id/note_date_picker"
         android:layout_centerHorizontal="true"/>
 
     <DatePicker
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:datePickerMode="spinner"
         android:calendarViewShown="false"
-        android:id="@+id/datePicker"
+        android:id="@+id/note_date_picker"
         android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true" />
 

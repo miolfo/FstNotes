@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.TimePicker;
 
 
 /**
@@ -22,6 +24,8 @@ public class NewNotePopup extends PopupWindow {
     private final float POPUP_HEIGHT = 0.8f;
     private Button mSaveButton, mCancelButton;
     private EditText mEditText;
+    private DatePicker mDatePicker;
+    private TimePicker mTimePicker;
 
 
     private Context mContext;
@@ -41,13 +45,20 @@ public class NewNotePopup extends PopupWindow {
 
     private void setupButtonListeners(){
         mEditText = (EditText)getContentView().findViewById(R.id.new_note_text);
+        mTimePicker = (TimePicker)getContentView().findViewById(R.id.note_time_picker);
+        mDatePicker = (DatePicker)getContentView().findViewById(R.id.note_date_picker);
         mSaveButton = (Button)getContentView().findViewById(R.id.save_new_note);
         mCancelButton = (Button)getContentView().findViewById(R.id.cancel_new_note);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String noteText = mEditText.getText().toString();
-                mActivity.AddNote(new Note(noteText));
+                Note note = new Note(noteText);
+                //TODO: Check if a reminder is set
+                Note.NoteTime nt = getNoteTime();
+                Note.NoteDate nd = getNoteDate();
+                note.SetReminder(nt, nd);
+                mActivity.AddNote(note);
                 dismiss();
             }
         });
@@ -72,5 +83,26 @@ public class NewNotePopup extends PopupWindow {
         setContentView(inflater.inflate(R.layout.new_note, null, false));
         setWidth((int)(screenSize.x * POPUP_WIDTH));
         setHeight((int)(screenSize.y * POPUP_HEIGHT));
+    }
+
+    private Note.NoteTime getNoteTime(){
+        Note.NoteTime nt = new Note.NoteTime();
+        if(Build.VERSION.SDK_INT >= 23) {
+            nt.hour = mTimePicker.getHour();
+            nt.minute = mTimePicker.getMinute();
+        }
+        else {
+            nt.hour = mTimePicker.getCurrentHour();
+            nt.minute = mTimePicker.getCurrentMinute();
+        }
+        return nt;
+    }
+
+    private Note.NoteDate getNoteDate(){
+        Note.NoteDate nd = new Note.NoteDate();
+        nd.day = mDatePicker.getDayOfMonth();
+        nd.month = mDatePicker.getMonth();
+        nd.year = mDatePicker.getYear();
+        return nd;
     }
 }

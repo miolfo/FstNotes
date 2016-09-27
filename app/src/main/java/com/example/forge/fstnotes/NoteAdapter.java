@@ -30,7 +30,7 @@ public class NoteAdapter extends ArrayAdapter {
         TextView reminderText = (TextView)convertView.findViewById(R.id.reminder_text);
 
         noteText.setText(n.GetNoteText());
-        reminderText.setText(n.HasReminder() ? "Reminder" : "No reminder");
+        reminderText.setText(n.GetReminderString());
 
         return convertView;
     }
