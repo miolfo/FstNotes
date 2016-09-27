@@ -18,8 +18,8 @@ import android.widget.PopupWindow;
 
 public class NewNotePopup extends PopupWindow {
 
-    private final float POPUP_WIDTH = 0.8f;
-    private final float POPUP_HEIGHT = 0.5f;
+    private final float POPUP_WIDTH = 0.9f;
+    private final float POPUP_HEIGHT = 0.8f;
     private Button mSaveButton, mCancelButton;
     private EditText mEditText;
 

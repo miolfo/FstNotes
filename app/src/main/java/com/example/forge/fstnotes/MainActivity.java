@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        initListview();
         addTestContent();
     }
 
@@ -64,13 +65,16 @@ public class MainActivity extends AppCompatActivity {
         mNoteAdapter.add(n);
     }
 
-    private void addTestContent(){
+    private void initListview(){
         ArrayList<Note> notes = new ArrayList<>();
-        String[] testNotes = {"123", "MOIKKA EEVI TÄÄ ON TÄRKEÄ MUISTUTUS JA TESTAA VIESTIN PITUUTTA", "juuh elikkäs", "kala"};
-        for (String s: testNotes) {
-            notes.add(new Note(s));
-        }
         mNoteAdapter = new NoteAdapter(this, notes);
         mListView.setAdapter(mNoteAdapter);
+    }
+
+    private void addTestContent(){
+        String[] testNotes = {"123", "sirkustirehtööri", "asd asd asd asd asd asd asd asd asd ", "     ", "TOP KEK"};
+        for(String s: testNotes){
+            AddNote(new Note(s));
+        }
     }
 }
