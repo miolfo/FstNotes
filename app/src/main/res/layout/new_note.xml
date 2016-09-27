@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
     android:isScrollContainer="false"
     android:layout_alignParentBottom="true"
+    android:id="@+id/new_note_layout"
     >
     <EditText
         android:layout_marginBottom="20dp"
@@ -15,41 +16,48 @@
         android:inputType="text"
         />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/linearLayout">
-    <Button
-        android:id="@+id/save_new_note"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="save"/>
-    <Button
-        android:id="@+id/cancel_new_note"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cancel"/>
-    </LinearLayout>
-
     <TimePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/note_time_picker"
         android:timePickerMode="spinner"
-        android:layout_marginBottom="25dp"
-        android:layout_above="@+id/note_date_picker"
+        android:layout_below="@+id/note_reminder_check"
         android:layout_centerHorizontal="true"/>
 
     <DatePicker
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:datePickerMode="spinner"
         android:calendarViewShown="false"
         android:id="@+id/note_date_picker"
-        android:layout_above="@+id/linearLayout"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@id/note_time_picker"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout">
+        <Button
+            android:id="@+id/save_new_note"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="save"/>
+        <Button
+            android:id="@+id/cancel_new_note"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cancel"/>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/note_reminder_check"
+        android:text="Reminder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/new_note_text"
+        android:layout_marginLeft="60dp"/>
 
 </RelativeLayout>

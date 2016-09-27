@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -23,6 +25,7 @@ public class NewNotePopup extends PopupWindow {
     private final float POPUP_WIDTH = 0.9f;
     private final float POPUP_HEIGHT = 0.8f;
     private Button mSaveButton, mCancelButton;
+    private CheckBox mReminderSetCheck;
     private EditText mEditText;
     private DatePicker mDatePicker;
     private TimePicker mTimePicker;
@@ -35,7 +38,16 @@ public class NewNotePopup extends PopupWindow {
         super();
         mActivity = activity;
         mContext = activity.getBaseContext();
+
         setupPopupWindow();
+
+        mEditText = (EditText)getContentView().findViewById(R.id.new_note_text);
+        mReminderSetCheck = (CheckBox)getContentView().findViewById(R.id.note_reminder_check);
+        mTimePicker = (TimePicker)getContentView().findViewById(R.id.note_time_picker);
+        mDatePicker = (DatePicker)getContentView().findViewById(R.id.note_date_picker);
+        mSaveButton = (Button)getContentView().findViewById(R.id.save_new_note);
+        mCancelButton = (Button)getContentView().findViewById(R.id.cancel_new_note);
+
         setupButtonListeners();
     }
 
@@ -44,20 +56,29 @@ public class NewNotePopup extends PopupWindow {
     }
 
     private void setupButtonListeners(){
-        mEditText = (EditText)getContentView().findViewById(R.id.new_note_text);
-        mTimePicker = (TimePicker)getContentView().findViewById(R.id.note_time_picker);
-        mDatePicker = (DatePicker)getContentView().findViewById(R.id.note_date_picker);
-        mSaveButton = (Button)getContentView().findViewById(R.id.save_new_note);
-        mCancelButton = (Button)getContentView().findViewById(R.id.cancel_new_note);
+
+        //Disable pickers and bind their enabling to the checkbox
+        mTimePicker.setEnabled(false);
+        mDatePicker.setEnabled(false);
+        mReminderSetCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox cb = (CheckBox)v;
+                mTimePicker.setEnabled(cb.isChecked());
+                mDatePicker.setEnabled(cb.isChecked());
+            }
+        });
+
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String noteText = mEditText.getText().toString();
                 Note note = new Note(noteText);
-                //TODO: Check if a reminder is set
-                Note.NoteTime nt = getNoteTime();
-                Note.NoteDate nd = getNoteDate();
-                note.SetReminder(nt, nd);
+                if(mReminderSetCheck.isChecked()) {
+                    Note.NoteTime nt = getNoteTime();
+                    Note.NoteDate nd = getNoteDate();
+                    note.SetReminder(nt, nd);
+                }
                 mActivity.AddNote(note);
                 dismiss();
             }
@@ -82,6 +103,7 @@ public class NewNotePopup extends PopupWindow {
         }
         setContentView(inflater.inflate(R.layout.new_note, null, false));
         setWidth((int)(screenSize.x * POPUP_WIDTH));
+        //setWidth(getContentView().findViewById(R.id.new_note_layout).getMeasuredWidth());
         setHeight((int)(screenSize.y * POPUP_HEIGHT));
     }
 
