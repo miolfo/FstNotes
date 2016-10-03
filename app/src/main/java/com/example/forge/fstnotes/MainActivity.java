@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     private NewNotePopup mNewNotePopup;
     private NoteAdapter mNoteAdapter;
+    private FileHandler mFileHandler;
 
 
     @Override
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mListView = (ListView) findViewById(R.id.note_list);
         mNewNotePopup = new NewNotePopup(this);
+        mFileHandler = new FileHandler(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         initListview();
-        addTestContent();
+        //addTestContent();
+        //Load the notes stored in internal storage
+        ArrayList<Note> existingNotes = mFileHandler.LoadNotes();
     }
 
     @Override
@@ -63,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void AddNote(Note n){
         mNoteAdapter.add(n);
+        mFileHandler.WriteNote(n);
     }
 
     private void initListview(){
