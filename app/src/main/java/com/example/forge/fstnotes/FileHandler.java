@@ -48,6 +48,13 @@ public class FileHandler {
         return true;
     }
 
+    public boolean DeleteNote(Note note){
+        String fn = note.GetNoteFileName();
+        File f = new File(mContext.getFilesDir(), fn);
+        boolean deleted = f.delete();
+        return deleted;
+    }
+
     public ArrayList<Note> LoadNotes(){
         File allFiles = mContext.getFilesDir();
         File[] fileList = allFiles.listFiles();

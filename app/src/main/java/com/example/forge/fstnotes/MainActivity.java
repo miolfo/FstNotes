@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private FileHandler mFileHandler;
     private AlertDialog.Builder mDialogBuilder;
 
+    private int mPosClicked = -1;   //Used with long click to identify which item was clicked
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
+                    //Delete note
+                    Note n = (Note)mNoteAdapter.getItem(mPosClicked);
+                    mFileHandler.DeleteNote(n);
+                    mNoteAdapter.remove(n);
+                    mNoteAdapter.notifyDataSetChanged();
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
                     break;
@@ -104,16 +111,10 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mPosClicked = position;
                 mDialogBuilder.show();
                 return false;
             }
         });
-    }
-
-    private void addTestContent(){
-        String[] testNotes = {"123", "sirkustirehtööri", "asd asd asd asd asd asd asd asd asd ", "     ", "TOP KEK"};
-        for(String s: testNotes){
-            AddNote(new Note(s));
-        }
     }
 }
