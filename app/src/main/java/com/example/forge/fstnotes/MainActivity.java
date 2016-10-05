@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         mFileHandler.WriteNote(n);
     }
 
-    public void AddNoteInitial(Note n){
+    //Adding notes in the startup, where they dont have to be written to disk
+    private void AddNoteInitial(Note n){
         mNoteAdapter.add(n);
     }
 

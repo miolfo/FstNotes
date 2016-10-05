@@ -28,7 +28,7 @@ public class Note {
         }
     }
 
-    private Random mRandom;
+    private static Random mRandom;
     private String noteText;
     private String noteFileName;
     private boolean reminder;
@@ -77,9 +77,9 @@ public class Note {
     }
 
     //Set the filename, used when loading notes from internal storage
-    public void SetFileName(String fileName){
+    /*public void SetFileName(String fileName){
         noteFileName = fileName;
-    }
+    }*/
 
     public NoteDate GetNoteDate(){
         return noteDate;
