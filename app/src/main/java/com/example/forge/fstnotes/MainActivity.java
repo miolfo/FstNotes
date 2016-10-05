@@ -1,13 +1,16 @@
 package com.example.forge.fstnotes;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private NewNotePopup mNewNotePopup;
     private NoteAdapter mNoteAdapter;
     private FileHandler mFileHandler;
-
+    private AlertDialog.Builder mDialogBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.note_list);
         mNewNotePopup = new NewNotePopup(this);
         mFileHandler = new FileHandler(this);
+        mDialogBuilder = new AlertDialog.Builder(this);
+        mDialogBuilder.setMessage("Delete note?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         initListview();
-        //addTestContent();
         //Load the notes stored in internal storage
         ArrayList<Note> existingNotes = mFileHandler.LoadNotes();
         for(Note n: existingNotes){
@@ -69,6 +74,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    break;
+            }
+        }
+    };
+
     public void AddNote(Note n){
         mNoteAdapter.add(n);
         mFileHandler.WriteNote(n);
@@ -83,6 +100,14 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Note> notes = new ArrayList<>();
         mNoteAdapter = new NoteAdapter(this, notes);
         mListView.setAdapter(mNoteAdapter);
+        mListView.setLongClickable(true);
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mDialogBuilder.show();
+                return false;
+            }
+        });
     }
 
     private void addTestContent(){

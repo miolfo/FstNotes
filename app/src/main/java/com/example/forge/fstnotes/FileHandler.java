@@ -61,6 +61,7 @@ public class FileHandler {
                     BufferedReader br = new BufferedReader(isr);
                     try {
                         String fileContents = br.readLine();
+                        Log.i("FileHandler", "Reading JSON: " + fileContents);
                         Note n = mGson.fromJson(fileContents, Note.class);
                         notes.add(n);
                     } catch (java.io.IOException e){

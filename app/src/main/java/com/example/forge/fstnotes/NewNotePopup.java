@@ -22,8 +22,8 @@ import android.widget.TimePicker;
 
 public class NewNotePopup extends PopupWindow {
 
-    private final float POPUP_WIDTH = 0.9f;
-    private final float POPUP_HEIGHT = 0.8f;
+    private final float POPUP_WIDTH = 1f;
+    private final float POPUP_HEIGHT = 0.95f;
     private Button mSaveButton, mCancelButton;
     private CheckBox mReminderSetCheck;
     private EditText mEditText;

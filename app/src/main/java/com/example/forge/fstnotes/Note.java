@@ -97,10 +97,10 @@ public class Note {
         }
     }
 
-    @Override
+    /*@Override
     public String toString(){
         return noteDate.toString() + "," + noteTime.toString() + "," + noteText + "," + noteFileName;
-    }
+    }*/
 
     private String createFileName(){
         int rndmInt = mRandom.nextInt();
