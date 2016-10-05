@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         //addTestContent();
         //Load the notes stored in internal storage
         ArrayList<Note> existingNotes = mFileHandler.LoadNotes();
+        for(Note n: existingNotes){
+            AddNoteInitial(n);
+        }
     }
 
     @Override
@@ -69,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
     public void AddNote(Note n){
         mNoteAdapter.add(n);
         mFileHandler.WriteNote(n);
+    }
+
+    public void AddNoteInitial(Note n){
+        mNoteAdapter.add(n);
     }
 
     private void initListview(){

@@ -99,7 +99,7 @@ public class Note {
 
     @Override
     public String toString(){
-        return noteDate.toString() + "," + noteTime.toString() + "," + noteText;
+        return noteDate.toString() + "," + noteTime.toString() + "," + noteText + "," + noteFileName;
     }
 
     private String createFileName(){
