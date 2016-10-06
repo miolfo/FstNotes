@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private NoteAdapter mNoteAdapter;
     private FileHandler mFileHandler;
     private AlertDialog.Builder mDialogBuilder;
+    private ItemSelectDialog mItemSelectDialog;
 
     private int mPosClicked = -1;   //Used with long click to identify which item was clicked
 
@@ -34,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.note_list);
         mNewNotePopup = new NewNotePopup(this);
         mFileHandler = new FileHandler(this);
+        mItemSelectDialog = new ItemSelectDialog(this);
         mDialogBuilder = new AlertDialog.Builder(this);
         mDialogBuilder.setMessage("Delete note?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,16 @@ public class MainActivity extends AppCompatActivity {
         mFileHandler.WriteNote(n);
     }
 
+    //Called from ItemSelectDialog when delete button is clicked
+    public void DeleteNoteClicked(){
+        mDialogBuilder.show();
+    }
+
+    //Called from ItemSelectDialog when edit button is clicked
+    public void EditNoteClicked(){
+
+    }
+
     //Adding notes in the startup, where they dont have to be written to disk
     private void AddNoteInitial(Note n){
         mNoteAdapter.add(n);
@@ -112,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 mPosClicked = position;
-                mDialogBuilder.show();
+                mItemSelectDialog.show();
                 return false;
             }
         });
