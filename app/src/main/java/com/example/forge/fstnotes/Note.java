@@ -6,6 +6,7 @@ package com.example.forge.fstnotes;
 
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Class used to define a single note
@@ -103,9 +104,8 @@ public class Note {
     }*/
 
     private String createFileName(){
-        int rndmInt = mRandom.nextInt();
-        int noteHash = GetNoteText().hashCode();
+        String filename = UUID.randomUUID().toString();
         //Todo: Check that the filename doesnt already exist to avoid overwriting
-        return (String.valueOf(rndmInt) + String.valueOf(noteHash) + ".fnote");
+        return (filename + ".fnote");
     }
 }

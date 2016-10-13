@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,15 +13,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView mListView;
-    private NewNotePopup mNewNotePopup;
+    private NotePopup mNotePopup;
     private NoteAdapter mNoteAdapter;
     private FileHandler mFileHandler;
     private AlertDialog.Builder mDialogBuilder;
     private ItemSelectDialog mItemSelectDialog;
+    private ReminderManager mReminderManager;
 
     private int mPosClicked = -1;   //Used with long click to identify which item was clicked
 
@@ -33,17 +34,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mListView = (ListView) findViewById(R.id.note_list);
-        mNewNotePopup = new NewNotePopup(this);
+        mNotePopup = new NotePopup(this);
         mFileHandler = new FileHandler(this);
         mItemSelectDialog = new ItemSelectDialog(this);
         mDialogBuilder = new AlertDialog.Builder(this);
         mDialogBuilder.setMessage("Delete note?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener);
+        mReminderManager = new ReminderManager(this);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mNewNotePopup.Show();
+                mNotePopup.Show();
             }
         });
 
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     public void AddNote(Note n){
         mNoteAdapter.add(n);
         mFileHandler.WriteNote(n);
+        addAlarm(n);
     }
 
     //Called from ItemSelectDialog when delete button is clicked
@@ -110,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Adding notes in the startup, where they dont have to be written to disk
+    //and they don't require an Alarm
     private void AddNoteInitial(Note n){
         mNoteAdapter.add(n);
     }
@@ -127,5 +132,16 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void addAlarm(Note n){
+        Calendar cal = Calendar.getInstance();
+        Note.NoteDate nd = n.GetNoteDate();
+        Note.NoteTime nt = n.GetNoteTime();
+        cal.set(nd.year, nd.month, nd.day);
+        cal.set(Calendar.HOUR_OF_DAY, nt.hour);
+        cal.set(Calendar.MINUTE, nt.minute);
+        cal.set(Calendar.SECOND, 0);
+        mReminderManager.AddAlarm(cal);
     }
 }

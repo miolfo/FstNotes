@@ -20,7 +20,7 @@ import android.widget.TimePicker;
  * Created by Forge on 9/26/2016.
  */
 
-public class NewNotePopup extends PopupWindow {
+public class NotePopup extends PopupWindow {
 
     private final float POPUP_WIDTH = 1f;
     private final float POPUP_HEIGHT = 0.95f;
@@ -34,7 +34,7 @@ public class NewNotePopup extends PopupWindow {
     private Context mContext;
     private MainActivity mActivity;
 
-    public NewNotePopup(MainActivity activity){
+    public NotePopup(MainActivity activity){
         super();
         mActivity = activity;
         mContext = activity.getBaseContext();
