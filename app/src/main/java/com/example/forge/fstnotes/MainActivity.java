@@ -143,6 +143,6 @@ public class MainActivity extends AppCompatActivity {
         cal.set(Calendar.HOUR_OF_DAY, nt.hour);
         cal.set(Calendar.MINUTE, nt.minute);
         cal.set(Calendar.SECOND, 0);
-        mReminderManager.AddAlarm(cal, n.GetNoteId());
+        mReminderManager.AddAlarm(cal, n.GetNoteId(), n.GetNoteText());
     }
 }

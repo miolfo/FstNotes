@@ -3,6 +3,7 @@ package com.example.forge.fstnotes;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -12,16 +13,18 @@ import android.os.Bundle;
 public class AlarmTriggerActivity extends Activity {
 
     private Activity thisActivity;
+    private Intent mIntent;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        String message = getIntent().getStringExtra("REMINDER_MESSAGE");
         thisActivity = this;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder
                 .setTitle("Reminder")
-                .setMessage("Reminder text placeholder")
+                .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton("Cancel", new DialogInterface.OnClickListener()
                 {

@@ -3,6 +3,7 @@ package com.example.forge.fstnotes;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * Created by Forge on 10/13/2016.
@@ -15,6 +16,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         //TODO: https://developer.android.com/training/scheduling/alarms.html#boot
         Intent i = new Intent(context, AlarmTriggerActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("REMINDER_MESSAGE", intent.getStringExtra("REMINDER_MESSAGE"));
         context.startActivity(i);
     }
 }
