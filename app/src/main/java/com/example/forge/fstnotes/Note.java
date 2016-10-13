@@ -35,6 +35,7 @@ public class Note {
     private boolean reminder;
     private NoteDate noteDate;
     private NoteTime noteTime;
+    private int noteId;
 
     public Note(String note){
         mRandom = new Random();
@@ -98,14 +99,22 @@ public class Note {
         }
     }
 
+    public int GetNoteId(){
+        return noteId;
+    }
+
     /*@Override
     public String toString(){
         return noteDate.toString() + "," + noteTime.toString() + "," + noteText + "," + noteFileName;
     }*/
 
     private String createFileName(){
+        //Generate an identifier for use with reminder PendingIntents
+        int i1 = noteText.hashCode();
+        int i2 = mRandom.nextInt();
+        noteId = i1 | i2;
         String filename = UUID.randomUUID().toString();
-        //Todo: Check that the filename doesnt already exist to avoid overwriting
+        //Todo: Check that the filename and/or id doesn't already exist to avoid overwriting
         return (filename + ".fnote");
     }
 }

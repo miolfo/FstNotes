@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     Note n = (Note)mNoteAdapter.getItem(mPosClicked);
                     mFileHandler.DeleteNote(n);
                     mNoteAdapter.remove(n);
+                    mReminderManager.CancelAlarm(n.GetNoteId());
                     mNoteAdapter.notifyDataSetChanged();
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -142,6 +143,6 @@ public class MainActivity extends AppCompatActivity {
         cal.set(Calendar.HOUR_OF_DAY, nt.hour);
         cal.set(Calendar.MINUTE, nt.minute);
         cal.set(Calendar.SECOND, 0);
-        mReminderManager.AddAlarm(cal);
+        mReminderManager.AddAlarm(cal, n.GetNoteId());
     }
 }

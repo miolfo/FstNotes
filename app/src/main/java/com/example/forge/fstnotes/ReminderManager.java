@@ -26,10 +26,16 @@ public class ReminderManager {
         mAlarmManager = (AlarmManager)mContext.getSystemService(Context.ALARM_SERVICE);
     }
 
-    public void AddAlarm(Calendar calendar){
+    public void AddAlarm(Calendar calendar, int intentId){
         Intent intent = new Intent(mContext, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(mContext, intentId, intent, 0);
         mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
         Log.i("ReminderManager", "Alarm set at " + calendar.toString());
+    }
+
+    public void CancelAlarm(int intentId){
+        Intent intent = new Intent(mContext, AlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(mContext, intentId, intent, 0);
+        mAlarmManager.cancel(alarmIntent);
     }
 }
