@@ -5,6 +5,7 @@ package com.example.forge.fstnotes;
  */
 
 
+import java.util.Calendar;
 import java.util.Random;
 import java.util.UUID;
 
@@ -101,6 +102,17 @@ public class Note {
 
     public int GetNoteId(){
         return noteId;
+    }
+
+    public Calendar GetNoteCalendar(){
+        Calendar cal = Calendar.getInstance();
+        Note.NoteDate nd = GetNoteDate();
+        Note.NoteTime nt = GetNoteTime();
+        cal.set(nd.year, nd.month, nd.day);
+        cal.set(Calendar.HOUR_OF_DAY, nt.hour);
+        cal.set(Calendar.MINUTE, nt.minute);
+        cal.set(Calendar.SECOND, 0);
+        return cal;
     }
 
     /*@Override

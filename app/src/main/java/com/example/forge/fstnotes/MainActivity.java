@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mDialogBuilder = new AlertDialog.Builder(this);
         mDialogBuilder.setMessage("Delete note?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener);
+        //TODO: On startup, check if alarms are set, and set them if they aren't
         mReminderManager = new ReminderManager(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -101,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
     public void AddNote(Note n){
         mNoteAdapter.add(n);
         mFileHandler.WriteNote(n);
-        addAlarm(n);
     }
 
     //Called from ItemSelectDialog when delete button is clicked
@@ -111,13 +112,18 @@ public class MainActivity extends AppCompatActivity {
 
     //Called from ItemSelectDialog when edit button is clicked
     public void EditNoteClicked(){
-
+        //TODO: Implementation
     }
 
     //Adding notes in the startup, where they dont have to be written to disk
     //and they don't require an Alarm
     private void AddNoteInitial(Note n){
         mNoteAdapter.add(n);
+        //TODO: Don't necessarily reset the alarm, check if it exists, then redo it if it doesn't exist
+        //Don't add alarms for already expired notes
+        if(Calendar.getInstance().getTimeInMillis() < n.GetNoteCalendar().getTimeInMillis()){
+            addAlarm(n);
+        }
     }
 
     private void initListview(){
@@ -136,13 +142,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addAlarm(Note n){
-        Calendar cal = Calendar.getInstance();
-        Note.NoteDate nd = n.GetNoteDate();
-        Note.NoteTime nt = n.GetNoteTime();
-        cal.set(nd.year, nd.month, nd.day);
-        cal.set(Calendar.HOUR_OF_DAY, nt.hour);
-        cal.set(Calendar.MINUTE, nt.minute);
-        cal.set(Calendar.SECOND, 0);
-        mReminderManager.AddAlarm(cal, n.GetNoteId(), n.GetNoteText());
+        mReminderManager.AddAlarm(n.GetNoteCalendar(), n.GetNoteId(), n.GetNoteText());
     }
 }
