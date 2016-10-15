@@ -29,7 +29,13 @@
             android:theme="@style/AppTheme.Transparent">
 
         </activity>
-
+        <receiver android:name="FstNoteWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/fstnote_appwidget_info" />
+        </receiver>
         <receiver android:name=".AlarmReceiver"/>
     </application>
 
