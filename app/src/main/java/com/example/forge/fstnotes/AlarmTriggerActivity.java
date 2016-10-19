@@ -2,6 +2,8 @@ package com.example.forge.fstnotes;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,5 +55,10 @@ public class AlarmTriggerActivity extends Activity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+        //Update widget to make current note be shown as expired
+        Intent intent = new Intent(this, FstNoteWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager awm = AppWidgetManager.getInstance(getApplicationContext());
+        awm.notifyAppWidgetViewDataChanged(awm.getAppWidgetIds(new ComponentName(this, FstNoteWidgetProvider.class)), R.id.notes_widget_list);
     }
 }

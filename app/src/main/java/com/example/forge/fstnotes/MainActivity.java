@@ -107,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
     public void AddNote(Note n){
         mNoteAdapter.add(n);
         mFileHandler.WriteNote(n);
-        addAlarm(n);
+        if(n.HasReminder() && Calendar.getInstance().getTimeInMillis() < n.GetNoteCalendar().getTimeInMillis()){
+            addAlarm(n);
+        }
         updateWidget();
     }
 
@@ -134,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         mNoteAdapter.add(n);
         //TODO: Don't necessarily reset the alarm, check if it exists, then redo it if it doesn't exist
         //Don't add alarms for already expired notes
-        if(Calendar.getInstance().getTimeInMillis() < n.GetNoteCalendar().getTimeInMillis()){
+        if(n.HasReminder() && Calendar.getInstance().getTimeInMillis() < n.GetNoteCalendar().getTimeInMillis()){
             addAlarm(n);
         }
     }

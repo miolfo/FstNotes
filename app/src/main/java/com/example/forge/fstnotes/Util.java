@@ -1,5 +1,9 @@
 package com.example.forge.fstnotes;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -54,6 +58,13 @@ public class Util {
 
     public static String FormatTime(Calendar cal){
         return cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
+    }
+
+    public static void UpdateWidgets(Context context){
+        Intent intent = new Intent(context, FstNoteWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager awm = AppWidgetManager.getInstance(context.getApplicationContext());
+        awm.notifyAppWidgetViewDataChanged(awm.getAppWidgetIds(new ComponentName(context, FstNoteWidgetProvider.class)), R.id.notes_widget_list);
     }
 
     //Check if the both calendars have same date
