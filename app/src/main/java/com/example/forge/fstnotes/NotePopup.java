@@ -47,6 +47,7 @@ public class NotePopup extends PopupWindow {
         mDatePicker = (DatePicker)getContentView().findViewById(R.id.note_date_picker);
         mSaveButton = (Button)getContentView().findViewById(R.id.save_new_note);
         mCancelButton = (Button)getContentView().findViewById(R.id.cancel_new_note);
+        mTimePicker.setIs24HourView(true);
 
         setupButtonListeners();
     }
@@ -81,12 +82,16 @@ public class NotePopup extends PopupWindow {
                 }
                 mActivity.AddNote(note);
                 dismiss();
+                //Empty the text input field
+                mEditText.setText("");
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+                //Empty the text input field
+                mEditText.setText("");
             }
         });
     }

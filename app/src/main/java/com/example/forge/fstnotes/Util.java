@@ -53,11 +53,11 @@ public class Util {
     }
 
     public static String FormatDate(Calendar cal){
-        return cal.get(Calendar.YEAR) + "/" + cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.DAY_OF_MONTH);
+        return padDateZeros(cal.get(Calendar.YEAR)) + "/" + padDateZeros(cal.get(Calendar.MONTH)) + "/" + padDateZeros(cal.get(Calendar.DAY_OF_MONTH));
     }
 
     public static String FormatTime(Calendar cal){
-        return cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
+        return padDateZeros(cal.get(Calendar.HOUR_OF_DAY)) + ":" + padDateZeros(cal.get(Calendar.MINUTE));
     }
 
     public static void UpdateWidgets(Context context){
@@ -65,6 +65,13 @@ public class Util {
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         AppWidgetManager awm = AppWidgetManager.getInstance(context.getApplicationContext());
         awm.notifyAppWidgetViewDataChanged(awm.getAppWidgetIds(new ComponentName(context, FstNoteWidgetProvider.class)), R.id.notes_widget_list);
+    }
+
+    //Pad date and month with a zero
+    private static String padDateZeros(int n){
+        String s = String.valueOf(n);
+        if(s.length() == 1) return "0" + s;
+        else return s;
     }
 
     //Check if the both calendars have same date
