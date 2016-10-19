@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     public void AddNote(Note n){
         mNoteAdapter.add(n);
         mFileHandler.WriteNote(n);
+        addAlarm(n);
         updateWidget();
     }
 
