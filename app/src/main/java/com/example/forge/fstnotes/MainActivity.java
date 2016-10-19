@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             addAlarm(n);
         }
         updateWidget();
+        mNoteAdapter.sort(new Util.NoteComparator());
     }
 
     //Called from ItemSelectDialog when delete button is clicked
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     //Called from ItemSelectDialog when edit button is clicked
     public void EditNoteClicked(){
         //TODO: Implementation
+
     }
 
     private void updateWidget(){

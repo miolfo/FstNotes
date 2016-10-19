@@ -60,13 +60,6 @@ public class Util {
         return padDateZeros(cal.get(Calendar.HOUR_OF_DAY)) + ":" + padDateZeros(cal.get(Calendar.MINUTE));
     }
 
-    public static void UpdateWidgets(Context context){
-        Intent intent = new Intent(context, FstNoteWidgetProvider.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        AppWidgetManager awm = AppWidgetManager.getInstance(context.getApplicationContext());
-        awm.notifyAppWidgetViewDataChanged(awm.getAppWidgetIds(new ComponentName(context, FstNoteWidgetProvider.class)), R.id.notes_widget_list);
-    }
-
     //Pad date and month with a zero
     private static String padDateZeros(int n){
         String s = String.valueOf(n);
@@ -81,7 +74,7 @@ public class Util {
     }
 
 
-    private static class NoteComparator implements Comparator<Note>{
+    public static class NoteComparator implements Comparator<Note>{
         @Override
         public int compare(Note o1, Note o2) {
             long t1 = o1.GetNoteCalendar().getTimeInMillis();
