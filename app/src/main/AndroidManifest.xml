@@ -26,9 +26,9 @@
         </activity>
         <activity android:name=".AlarmTriggerActivity"
             android:label="FstNotes"
-            android:theme="@style/AppTheme.Transparent">
-
-        </activity>
+            android:theme="@style/AppTheme.Transparent"></activity>
+        <service android:name=".FstNoteWidgetService"
+        android:permission="android.permission.BIND_REMOTEVIEWS" />
         <receiver android:name="FstNoteWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
