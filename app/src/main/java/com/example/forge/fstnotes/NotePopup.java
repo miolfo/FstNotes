@@ -57,6 +57,7 @@ public class NotePopup extends PopupWindow {
 
     public void Show(){
         showAtLocation(mActivity.findViewById(R.id.content_main), Gravity.CENTER, 0,0);
+        setPickersToCurrent();
         mEditingNote = false;
     }
 
@@ -67,6 +68,7 @@ public class NotePopup extends PopupWindow {
         mEditText.setText(editable.GetNoteText());
         //If the note has a reminder, set pickers to those values
         if(editable.HasReminder()) {
+            setReminderEnabled(true);
             mTimePicker.setCurrentHour(editable.GetNoteTime().hour);
             mTimePicker.setCurrentMinute(editable.GetNoteTime().minute);
             Note.NoteDate nd = editable.GetNoteDate();
@@ -74,6 +76,7 @@ public class NotePopup extends PopupWindow {
         }
         //If no reminder was set, set current date to pickers
         else{
+            setReminderEnabled(false);
             setPickersToCurrent();
         }
     }
@@ -85,11 +88,16 @@ public class NotePopup extends PopupWindow {
         mDatePicker.updateDate(curr.get(Calendar.YEAR), curr.get(Calendar.MONTH), curr.get(Calendar.DAY_OF_MONTH));
     }
 
+    private void setReminderEnabled(boolean enabled){
+        mReminderSetCheck.setChecked(enabled);
+        mTimePicker.setEnabled(enabled);
+        mDatePicker.setEnabled(enabled);
+    }
+
     private void setupButtonListeners(){
 
         //Disable pickers and bind their enabling to the checkbox
-        mTimePicker.setEnabled(false);
-        mDatePicker.setEnabled(false);
+        setReminderEnabled(false);
         mReminderSetCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +126,7 @@ public class NotePopup extends PopupWindow {
                 dismiss();
                 //Empty the text input field
                 mEditText.setText("");
+                mReminderSetCheck.setChecked(false);
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +135,7 @@ public class NotePopup extends PopupWindow {
                 dismiss();
                 //Empty the text input field
                 mEditText.setText("");
+                mReminderSetCheck.setChecked(false);
             }
         });
     }
