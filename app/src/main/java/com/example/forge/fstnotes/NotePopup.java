@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TimePicker;
 
+import java.util.Calendar;
+
 
 /**
  * Created by Forge on 9/26/2016.
@@ -29,7 +31,8 @@ public class NotePopup extends PopupWindow {
     private EditText mEditText;
     private DatePicker mDatePicker;
     private TimePicker mTimePicker;
-
+    private boolean mEditingNote = false;
+    private int mEditedNotePos = -1;
 
     private Context mContext;
     private MainActivity mActivity;
@@ -54,6 +57,32 @@ public class NotePopup extends PopupWindow {
 
     public void Show(){
         showAtLocation(mActivity.findViewById(R.id.content_main), Gravity.CENTER, 0,0);
+        mEditingNote = false;
+    }
+
+    public void ShowForEditing(Note editable, int editableNotePos){
+        showAtLocation(mActivity.findViewById(R.id.content_main), Gravity.CENTER, 0,0);
+        mEditingNote = true;
+        mEditedNotePos = editableNotePos;
+        mEditText.setText(editable.GetNoteText());
+        //If the note has a reminder, set pickers to those values
+        if(editable.HasReminder()) {
+            mTimePicker.setCurrentHour(editable.GetNoteTime().hour);
+            mTimePicker.setCurrentMinute(editable.GetNoteTime().minute);
+            Note.NoteDate nd = editable.GetNoteDate();
+            mDatePicker.updateDate(nd.year, nd.month, nd.day);
+        }
+        //If no reminder was set, set current date to pickers
+        else{
+            setPickersToCurrent();
+        }
+    }
+
+    private void setPickersToCurrent(){
+        Calendar curr =  Calendar.getInstance();
+        mTimePicker.setCurrentHour(curr.get(Calendar.HOUR_OF_DAY));
+        mTimePicker.setCurrentMinute(curr.get(Calendar.MINUTE));
+        mDatePicker.updateDate(curr.get(Calendar.YEAR), curr.get(Calendar.MONTH), curr.get(Calendar.DAY_OF_MONTH));
     }
 
     private void setupButtonListeners(){
@@ -75,12 +104,17 @@ public class NotePopup extends PopupWindow {
             public void onClick(View v) {
                 String noteText = mEditText.getText().toString();
                 Note note = new Note(noteText);
-                if(mReminderSetCheck.isChecked()) {
+                if (mReminderSetCheck.isChecked()) {
                     Note.NoteTime nt = getNoteTime();
                     Note.NoteDate nd = getNoteDate();
                     note.SetReminder(nt, nd);
                 }
-                mActivity.AddNote(note);
+                if(mEditingNote){
+                    mActivity.NoteEdited(note, mEditedNotePos);
+                }
+                else {
+                    mActivity.AddNote(note);
+                }
                 dismiss();
                 //Empty the text input field
                 mEditText.setText("");

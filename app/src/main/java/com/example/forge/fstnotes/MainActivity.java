@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         for(Note n: existingNotes){
             AddNoteInitial(n);
         }
+        mNoteAdapter.sort(new Util.NoteComparator());
     }
 
     @Override
@@ -91,12 +92,7 @@ public class MainActivity extends AppCompatActivity {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     //Delete note
-                    Note n = (Note)mNoteAdapter.getItem(mPosClicked);
-                    mFileHandler.DeleteNote(n);
-                    mNoteAdapter.remove(n);
-                    mReminderManager.CancelAlarm(n.GetNoteId());
-                    mNoteAdapter.notifyDataSetChanged();
-                    updateWidget();
+                    deleteNote(mPosClicked);
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
                     break;
@@ -121,8 +117,12 @@ public class MainActivity extends AppCompatActivity {
 
     //Called from ItemSelectDialog when edit button is clicked
     public void EditNoteClicked(){
-        //TODO: Implementation
+        mNotePopup.ShowForEditing((Note)mNoteAdapter.getItem(mPosClicked), mPosClicked);
+    }
 
+    public void NoteEdited(Note newNote, int editedNotePos){
+        deleteNote(editedNotePos);
+        AddNote(newNote);
     }
 
     private void updateWidget(){
@@ -141,6 +141,15 @@ public class MainActivity extends AppCompatActivity {
         if(n.HasReminder() && Calendar.getInstance().getTimeInMillis() < n.GetNoteCalendar().getTimeInMillis()){
             addAlarm(n);
         }
+    }
+
+    private void deleteNote(int pos){
+        Note n = (Note)mNoteAdapter.getItem(pos);
+        mFileHandler.DeleteNote(n);
+        mNoteAdapter.remove(n);
+        mReminderManager.CancelAlarm(n.GetNoteId());
+        mNoteAdapter.notifyDataSetChanged();
+        updateWidget();
     }
 
     private void initListview(){

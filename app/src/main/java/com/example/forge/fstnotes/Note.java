@@ -62,11 +62,17 @@ public class Note {
         return noteFileName;
     }
 
-    public void EditNoteText(String newNote){
+    public void SetNoteText(String newNote){
         noteText = newNote;
     }
-    public void EditNoteTime(NoteTime newNoteTime){ noteTime = newNoteTime;}
-    public void EditNoteDate(NoteDate newNoteDate){ noteDate = newNoteDate;}
+
+    public void SetNoteTime(NoteTime newNoteTime){
+        noteTime = newNoteTime;
+
+    }
+    public void SetNoteDate(NoteDate newNoteDate){
+        noteDate = newNoteDate;
+    }
 
     public boolean HasReminder(){
         return reminder;
