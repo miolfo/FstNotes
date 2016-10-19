@@ -37,6 +37,7 @@ public class FstNoteWidgetService extends RemoteViewsService {
             mNotes = Util.SortNotesByDate(fh.LoadNotes());
         }
 
+
         @Override
         public void onDestroy() {
 
@@ -77,7 +78,8 @@ public class FstNoteWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-
+            FileHandler fh = new FileHandler(mContext);
+            mNotes = Util.SortNotesByDate(fh.LoadNotes());
         }
     }
 }

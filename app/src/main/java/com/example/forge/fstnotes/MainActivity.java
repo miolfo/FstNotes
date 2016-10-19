@@ -1,6 +1,9 @@
 package com.example.forge.fstnotes;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     mNoteAdapter.remove(n);
                     mReminderManager.CancelAlarm(n.GetNoteId());
                     mNoteAdapter.notifyDataSetChanged();
+                    updateWidget();
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
                     break;
@@ -103,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     public void AddNote(Note n){
         mNoteAdapter.add(n);
         mFileHandler.WriteNote(n);
+        updateWidget();
     }
 
     //Called from ItemSelectDialog when delete button is clicked
@@ -115,7 +120,14 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Implementation
     }
 
-    //Adding notes in the startup, where they dont have to be written to disk
+    private void updateWidget(){
+        Intent intent = new Intent(this, FstNoteWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager awm = AppWidgetManager.getInstance(getApplicationContext());
+        awm.notifyAppWidgetViewDataChanged(awm.getAppWidgetIds(new ComponentName(this, FstNoteWidgetProvider.class)), R.id.notes_widget_list);
+    }
+
+    //Adding notes in the startup, where they don't have to be written to disk
     //and they don't require an Alarm
     private void AddNoteInitial(Note n){
         mNoteAdapter.add(n);

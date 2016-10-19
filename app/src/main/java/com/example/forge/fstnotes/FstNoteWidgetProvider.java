@@ -37,18 +37,8 @@ public class FstNoteWidgetProvider extends AppWidgetProvider {
             // to a RemoteViewsService  through the specified intent.
             // This is how you populate the data.
             rv.setRemoteAdapter(appWidgetIds[i], R.id.notes_widget_list, intent);
-
-            // The empty view is displayed when the collection has no items.
-            // It should be in the same layout used to instantiate the RemoteViews
-            // object above.
-            //rv.setEmptyView(R.id.expired_notes_widget_list, R.id.empty_view);
-
-            //
-            // Do additional processing specific to this app widget...
-            //
-
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
-        super.onUpdate(context, appWidgetManager, appWidgetIds);        Log.i("WidgetProvider", "Widget on update!");
+        super.onUpdate(context, appWidgetManager, appWidgetIds);        Log.i("WidgetProvider", "Widget on update! " + appWidgetIds[0]);
     }
 }

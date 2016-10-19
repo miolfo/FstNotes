@@ -37,8 +37,6 @@ public class Util {
     public static String TimeAsString(Calendar cal){
         Calendar curr = Calendar.getInstance();
         long diff = cal.getTimeInMillis() - curr.getTimeInMillis();
-        //Calendar diffc = Calendar.getInstance();
-        //diffc.setTimeInMillis(diff);
         if(diff < 0) return "Expired";
         //If the date is same, return the time of the note
         else if(sameDate(cal, curr)){
@@ -55,7 +53,7 @@ public class Util {
     }
 
     public static String FormatTime(Calendar cal){
-        return cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE);
+        return cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE);
     }
 
     //Check if the both calendars have same date
