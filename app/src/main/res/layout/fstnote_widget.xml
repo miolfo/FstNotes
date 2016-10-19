@@ -7,33 +7,22 @@
     android:id="@+id/widget_top_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="2">
+    android:orientation="horizontal">
     <TextView
-        android:id="@+id/expired_notes_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/notes_widget_header"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="#fffa9e"
         android:padding="5px"
         android:layout_margin="4px"
         android:gravity="center"
         android:layout_weight="1"
-        android:text="Expired notes"/>
-    <TextView
-        android:id="@+id/upcoming_notes_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#fffa9e"
-        android:padding="5px"
-        android:layout_margin="4px"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="Upcoming notes"/>
+        android:text="FstNotes"/>
 </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_below="@+id/widget_top_layout"
@@ -41,12 +30,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp">
         <ListView
-            android:id="@+id/expired_notes_widget_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"></ListView>
-        <ListView
-            android:id="@+id/upcoming_notes_widget_list"
+            android:id="@+id/notes_widget_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"></ListView>

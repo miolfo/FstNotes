@@ -24,7 +24,7 @@ public class FstNoteWidgetService extends RemoteViewsService {
 
         private Context mContext;
         private Intent mIntent;
-        private ArrayList<Note> mExpiredNotes, mUpcomingNotes;
+        private ArrayList<Note> mNotes;
 
         public FstNoteViewsFactory(Context context, Intent intent){
             mContext = context;
@@ -34,10 +34,7 @@ public class FstNoteWidgetService extends RemoteViewsService {
         @Override
         public void onCreate() {
             FileHandler fh = new FileHandler(mContext);
-            Pair<ArrayList<Note>, ArrayList<Note>> pair = Util.SortNotes(fh.LoadNotes());
-            mExpiredNotes = pair.first;
-            mUpcomingNotes = pair.second;
-            Log.i("ViewsFactory", "Expired notes count: " + mExpiredNotes.size());
+            mNotes = Util.SortNotesByDate(fh.LoadNotes());
         }
 
         @Override
@@ -47,7 +44,7 @@ public class FstNoteWidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            return mExpiredNotes.size();
+            return mNotes.size();
         }
 
         @Override
@@ -63,8 +60,8 @@ public class FstNoteWidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
             RemoteViews single = new RemoteViews(mContext.getPackageName(), R.layout.single_note);
-            single.setTextViewText(R.id.note_text, mExpiredNotes.get(position).GetNoteText());
-            single.setTextViewText(R.id.reminder_text, mExpiredNotes.get(position).GetReminderString());
+            single.setTextViewText(R.id.note_text, mNotes.get(position).GetNoteText());
+            single.setTextViewText(R.id.reminder_text, mNotes.get(position).GetReminderString());
             return single;
         }
 
