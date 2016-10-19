@@ -33,6 +33,38 @@ public class Util {
         return notes;
     }
 
+    //Convert the calendar string to a shorter representation
+    public static String TimeAsString(Calendar cal){
+        Calendar curr = Calendar.getInstance();
+        long diff = cal.getTimeInMillis() - curr.getTimeInMillis();
+        //Calendar diffc = Calendar.getInstance();
+        //diffc.setTimeInMillis(diff);
+        if(diff < 0) return "Expired";
+        //If the date is same, return the time of the note
+        else if(sameDate(cal, curr)){
+            return FormatTime(cal);
+        }
+        //Else return the date
+        else{
+            return FormatDate(cal);
+        }
+    }
+
+    public static String FormatDate(Calendar cal){
+        return cal.get(Calendar.YEAR) + "/" + cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static String FormatTime(Calendar cal){
+        return cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE);
+    }
+
+    //Check if the both calendars have same date
+    private static boolean sameDate(Calendar c1, Calendar c2){
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH)
+                && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH);
+    }
+
+
     private static class NoteComparator implements Comparator<Note>{
         @Override
         public int compare(Note o1, Note o2) {

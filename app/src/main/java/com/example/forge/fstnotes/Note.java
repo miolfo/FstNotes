@@ -95,8 +95,9 @@ public class Note {
     public String GetReminderString(){
         if(!reminder) return "----/--/--, --:--";
         else{
-            return noteDate.year + "/" + noteDate.month + "/" + noteDate.day + ", "
-                    + noteTime.hour + ":" + noteTime.minute;
+            Calendar c = GetNoteCalendar();
+            return Util.FormatDate(c) + ", "
+                    + Util.FormatTime(c);
         }
     }
 

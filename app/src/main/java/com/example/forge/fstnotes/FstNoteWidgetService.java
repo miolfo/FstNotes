@@ -61,7 +61,7 @@ public class FstNoteWidgetService extends RemoteViewsService {
         public RemoteViews getViewAt(int position) {
             RemoteViews single = new RemoteViews(mContext.getPackageName(), R.layout.single_note);
             single.setTextViewText(R.id.note_text, mNotes.get(position).GetNoteText());
-            single.setTextViewText(R.id.reminder_text, mNotes.get(position).GetReminderString());
+            single.setTextViewText(R.id.reminder_text, Util.TimeAsString(mNotes.get(position).GetNoteCalendar()));
             return single;
         }
 
