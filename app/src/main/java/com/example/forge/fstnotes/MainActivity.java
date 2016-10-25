@@ -62,6 +62,17 @@ public class MainActivity extends AppCompatActivity {
             AddNoteInitial(n);
         }
         mNoteAdapter.sort(new Util.NoteComparator());
+
+        //Check if the Activity was launched from the widgets "add new note" button
+        String action = getIntent().getAction();
+        if(action != null && action.equals(FstNoteWidgetProvider.WIDGET_ADD_NOTE)){
+            //Wait until main is loaded and then launch popup
+            findViewById(R.id.content_main).post(new Runnable() {
+                public void run() {
+                    mNotePopup.Show();
+                }
+            });
+        }
     }
 
     @Override
