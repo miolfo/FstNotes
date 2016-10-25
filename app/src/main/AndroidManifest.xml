@@ -32,6 +32,7 @@
         <receiver android:name="FstNoteWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.forge.fstnotes.ADD_NOTE_ACTION" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/fstnote_appwidget_info" />

@@ -17,7 +17,13 @@
         android:layout_margin="4px"
         android:gravity="center"
         android:layout_weight="1"
-        android:text="FstNotes"/>
+        android:text="FstNotes" />
+    <Button
+        android:layout_width="60dp"
+        android:id="@+id/add_new_note_widget"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:textSize="15dp"/>
 </LinearLayout>
 
     <LinearLayout
