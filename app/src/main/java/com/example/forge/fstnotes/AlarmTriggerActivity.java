@@ -12,9 +12,11 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.WindowManager;
 
 import java.util.Calendar;
+import java.util.TimerTask;
 
 /**
  * Created by Forge on 10/13/2016. */
@@ -27,6 +29,14 @@ public class AlarmTriggerActivity extends Activity {
     private static Ringtone mAlarm = null;
 
     private static final String RESTRICTED_MESSAGE = "Unlock the phone to view alarm!";
+    private static final int ALARM_RUNNING_TIME_MS = 30000;
+
+    private Runnable stopAlarmScheduled = new Runnable() {
+        @Override
+        public void run() {
+            stopAlarm();
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,11 +45,14 @@ public class AlarmTriggerActivity extends Activity {
         thisActivity = this;
         final ReminderManager rm = new ReminderManager(this);
 
+        Handler h = new Handler();
         //Play alert sound
         try {
             mAlarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
             mAlarm = RingtoneManager.getRingtone(getApplicationContext(), mAlarmUri);
             mAlarm.play();
+            //Set the alarm sound to stop after x seconds
+            h.postDelayed(stopAlarmScheduled, ALARM_RUNNING_TIME_MS);
         } catch (Exception e) {
             e.printStackTrace();
         }
