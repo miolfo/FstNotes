@@ -13,6 +13,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.WindowManager;
 
 import java.util.Calendar;
@@ -30,6 +31,7 @@ public class AlarmTriggerActivity extends Activity {
 
     private static final String RESTRICTED_MESSAGE = "Unlock the phone to view alarm!";
     private static final int ALARM_RUNNING_TIME_MS = 30000;
+    private static final long[] VIBRATION_PATTERN = {0,400,400,400,400,400};
 
     private Runnable stopAlarmScheduled = new Runnable() {
         @Override
@@ -41,9 +43,11 @@ public class AlarmTriggerActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final int reminderId = getIntent().getIntExtra("REMINDER_INT",-1);
         thisActivity = this;
+
+        final int reminderId = getIntent().getIntExtra("REMINDER_INT",-1);
         final ReminderManager rm = new ReminderManager(this);
+        final Vibrator v = (Vibrator)getSystemService(VIBRATOR_SERVICE);
 
         Handler h = new Handler();
         //Play alert sound
@@ -53,6 +57,7 @@ public class AlarmTriggerActivity extends Activity {
             mAlarm.play();
             //Set the alarm sound to stop after x seconds
             h.postDelayed(stopAlarmScheduled, ALARM_RUNNING_TIME_MS);
+            v.vibrate(VIBRATION_PATTERN, -1);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,7 +3,7 @@
     package="com.example.forge.fstnotes">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application><![CDATA[
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
