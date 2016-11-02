@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        enableBootReceiver();
         mListView = (ListView) findViewById(R.id.note_list);
         mNotePopup = new NotePopup(this);
         mFileHandler = new FileHandler(this);
@@ -147,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
     //and they don't require an Alarm
     private void AddNoteInitial(Note n){
         mNoteAdapter.add(n);
-        //TODO: Don't necessarily reset the alarm, check if it exists, then redo it if it doesn't exist
         //Don't add alarms for already expired notes
         if(n.HasReminder() && Calendar.getInstance().getTimeInMillis() < n.GetNoteCalendar().getTimeInMillis()){
             addAlarm(n);
@@ -176,6 +178,14 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void enableBootReceiver(){
+        ComponentName receiver = new ComponentName(this, FstBootReceiver.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
     }
 
     private void addAlarm(Note n){
