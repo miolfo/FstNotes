@@ -53,7 +53,7 @@ public class Util {
     }
 
     public static String FormatDate(Calendar cal){
-        return padDateZeros(cal.get(Calendar.YEAR)) + "/" + padDateZeros(cal.get(Calendar.MONTH)) + "/" + padDateZeros(cal.get(Calendar.DAY_OF_MONTH));
+        return padDateZeros(cal.get(Calendar.YEAR)) + "/" + padDateZeros(cal.get(Calendar.MONTH)+1) + "/" + padDateZeros(cal.get(Calendar.DAY_OF_MONTH));
     }
 
     public static String FormatTime(Calendar cal){
