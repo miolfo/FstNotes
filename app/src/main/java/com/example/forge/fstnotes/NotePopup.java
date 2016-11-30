@@ -24,8 +24,8 @@ import java.util.Calendar;
 
 public class NotePopup extends PopupWindow {
 
-    private final float POPUP_WIDTH = 1f;
-    private final float POPUP_HEIGHT = 0.95f;
+    private final float POPUP_WIDTH = 0.85f;
+    private final float POPUP_HEIGHT = 0.85f;
     private Button mSaveButton, mCancelButton;
     private CheckBox mReminderSetCheck;
     private EditText mEditText;
@@ -46,11 +46,11 @@ public class NotePopup extends PopupWindow {
 
         mEditText = (EditText)getContentView().findViewById(R.id.new_note_text);
         mReminderSetCheck = (CheckBox)getContentView().findViewById(R.id.note_reminder_check);
-        mTimePicker = (TimePicker)getContentView().findViewById(R.id.note_time_picker);
-        mDatePicker = (DatePicker)getContentView().findViewById(R.id.note_date_picker);
+        //mTimePicker = (TimePicker)getContentView().findViewById(R.id.note_time_picker);
+        //mDatePicker = (DatePicker)getContentView().findViewById(R.id.note_date_picker);
         mSaveButton = (Button)getContentView().findViewById(R.id.save_new_note);
         mCancelButton = (Button)getContentView().findViewById(R.id.cancel_new_note);
-        mTimePicker.setIs24HourView(true);
+        //mTimePicker.setIs24HourView(true);
 
         setupButtonListeners();
     }
@@ -83,15 +83,15 @@ public class NotePopup extends PopupWindow {
 
     private void setPickersToCurrent(){
         Calendar curr =  Calendar.getInstance();
-        mTimePicker.setCurrentHour(curr.get(Calendar.HOUR_OF_DAY));
-        mTimePicker.setCurrentMinute(curr.get(Calendar.MINUTE));
-        mDatePicker.updateDate(curr.get(Calendar.YEAR), curr.get(Calendar.MONTH), curr.get(Calendar.DAY_OF_MONTH));
+        //mTimePicker.setCurrentHour(curr.get(Calendar.HOUR_OF_DAY));
+        //mTimePicker.setCurrentMinute(curr.get(Calendar.MINUTE));
+        //mDatePicker.updateDate(curr.get(Calendar.YEAR), curr.get(Calendar.MONTH), curr.get(Calendar.DAY_OF_MONTH));
     }
 
     private void setReminderEnabled(boolean enabled){
         mReminderSetCheck.setChecked(enabled);
-        mTimePicker.setEnabled(enabled);
-        mDatePicker.setEnabled(enabled);
+        //mTimePicker.setEnabled(enabled);
+        //mDatePicker.setEnabled(enabled);
     }
 
     private void setupButtonListeners(){
@@ -102,8 +102,8 @@ public class NotePopup extends PopupWindow {
             @Override
             public void onClick(View v) {
                 CheckBox cb = (CheckBox)v;
-                mTimePicker.setEnabled(cb.isChecked());
-                mDatePicker.setEnabled(cb.isChecked());
+                //mTimePicker.setEnabled(cb.isChecked());
+                //mDatePicker.setEnabled(cb.isChecked());
             }
         });
 

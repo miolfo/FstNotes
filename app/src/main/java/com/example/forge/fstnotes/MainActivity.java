@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        updateWidget();
     }
 
     @Override
