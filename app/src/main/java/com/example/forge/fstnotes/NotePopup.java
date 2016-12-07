@@ -3,6 +3,7 @@ package com.example.forge.fstnotes;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +26,14 @@ import java.util.Calendar;
 public class NotePopup extends PopupWindow {
 
     private final float POPUP_WIDTH = 0.85f;
-    private final float POPUP_HEIGHT = 0.85f;
+    private final float POPUP_HEIGHT = 0.65f;
     private Button mSaveButton, mCancelButton;
+    private Button mDatePickerButton, mTimePickerButton;
     private CheckBox mReminderSetCheck;
     private EditText mEditText;
-    private DatePicker mDatePicker;
-    private TimePicker mTimePicker;
     private boolean mEditingNote = false;
     private int mEditedNotePos = -1;
+    private PickerPopup mPickerPopup;
 
     private Context mContext;
     private MainActivity mActivity;
@@ -46,12 +47,11 @@ public class NotePopup extends PopupWindow {
 
         mEditText = (EditText)getContentView().findViewById(R.id.new_note_text);
         mReminderSetCheck = (CheckBox)getContentView().findViewById(R.id.note_reminder_check);
-        //mTimePicker = (TimePicker)getContentView().findViewById(R.id.note_time_picker);
-        //mDatePicker = (DatePicker)getContentView().findViewById(R.id.note_date_picker);
         mSaveButton = (Button)getContentView().findViewById(R.id.save_new_note);
         mCancelButton = (Button)getContentView().findViewById(R.id.cancel_new_note);
-        //mTimePicker.setIs24HourView(true);
-
+        mDatePickerButton = (Button)getContentView().findViewById(R.id.date_picker_button);
+        mTimePickerButton = (Button)getContentView().findViewById(R.id.time_picker_button);
+        mPickerPopup = new PickerPopup(mActivity);
         setupButtonListeners();
     }
 
@@ -69,10 +69,10 @@ public class NotePopup extends PopupWindow {
         //If the note has a reminder, set pickers to those values
         if(editable.HasReminder()) {
             setReminderEnabled(true);
-            mTimePicker.setCurrentHour(editable.GetNoteTime().hour);
-            mTimePicker.setCurrentMinute(editable.GetNoteTime().minute);
+            //mTimePicker.setCurrentHour(editable.GetNoteTime().hour);
+            //mTimePicker.setCurrentMinute(editable.GetNoteTime().minute);
             Note.NoteDate nd = editable.GetNoteDate();
-            mDatePicker.updateDate(nd.year, nd.month, nd.day);
+            //mDatePicker.updateDate(nd.year, nd.month, nd.day);
         }
         //If no reminder was set, set current date to pickers
         else{
@@ -83,9 +83,6 @@ public class NotePopup extends PopupWindow {
 
     private void setPickersToCurrent(){
         Calendar curr =  Calendar.getInstance();
-        //mTimePicker.setCurrentHour(curr.get(Calendar.HOUR_OF_DAY));
-        //mTimePicker.setCurrentMinute(curr.get(Calendar.MINUTE));
-        //mDatePicker.updateDate(curr.get(Calendar.YEAR), curr.get(Calendar.MONTH), curr.get(Calendar.DAY_OF_MONTH));
     }
 
     private void setReminderEnabled(boolean enabled){
@@ -138,7 +135,17 @@ public class NotePopup extends PopupWindow {
                 mReminderSetCheck.setChecked(false);
             }
         });
+        mDatePickerButton.setOnClickListener(mPickerButtonClicked);
+        mTimePickerButton.setOnClickListener(mPickerButtonClicked);
     }
+
+    private View.OnClickListener mPickerButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.i("FstNotes", String.valueOf(v.getId() == R.id.time_picker_button));
+            mPickerPopup.Show(v.getId() == R.id.time_picker_button);
+        }
+    };
 
     private void setupPopupWindow(){
         Point screenSize = new Point();
@@ -159,21 +166,21 @@ public class NotePopup extends PopupWindow {
     private Note.NoteTime getNoteTime(){
         Note.NoteTime nt = new Note.NoteTime();
         if(Build.VERSION.SDK_INT >= 23) {
-            nt.hour = mTimePicker.getHour();
-            nt.minute = mTimePicker.getMinute();
+            //nt.hour = mTimePicker.getHour();
+            //nt.minute = mTimePicker.getMinute();
         }
         else {
-            nt.hour = mTimePicker.getCurrentHour();
-            nt.minute = mTimePicker.getCurrentMinute();
+            //nt.hour = mTimePicker.getCurrentHour();
+            //nt.minute = mTimePicker.getCurrentMinute();
         }
         return nt;
     }
 
     private Note.NoteDate getNoteDate(){
         Note.NoteDate nd = new Note.NoteDate();
-        nd.day = mDatePicker.getDayOfMonth();
-        nd.month = mDatePicker.getMonth();
-        nd.year = mDatePicker.getYear();
+        //nd.day = mDatePicker.getDayOfMonth();
+        //nd.month = mDatePicker.getMonth();
+        //nd.year = mDatePicker.getYear();
         return nd;
     }
 }
