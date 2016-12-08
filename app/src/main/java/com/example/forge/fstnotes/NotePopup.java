@@ -87,8 +87,8 @@ public class NotePopup extends PopupWindow {
 
     private void setReminderEnabled(boolean enabled){
         mReminderSetCheck.setChecked(enabled);
-        //mTimePicker.setEnabled(enabled);
-        //mDatePicker.setEnabled(enabled);
+        mTimePickerButton.setEnabled(enabled);
+        mDatePickerButton.setEnabled(enabled);
     }
 
     private void setupButtonListeners(){
@@ -99,8 +99,8 @@ public class NotePopup extends PopupWindow {
             @Override
             public void onClick(View v) {
                 CheckBox cb = (CheckBox)v;
-                //mTimePicker.setEnabled(cb.isChecked());
-                //mDatePicker.setEnabled(cb.isChecked());
+                mTimePickerButton.setEnabled(cb.isChecked());
+                mDatePickerButton.setEnabled(cb.isChecked());
             }
         });
 
@@ -110,8 +110,8 @@ public class NotePopup extends PopupWindow {
                 String noteText = mEditText.getText().toString();
                 Note note = new Note(noteText);
                 if (mReminderSetCheck.isChecked()) {
-                    Note.NoteTime nt = getNoteTime();
-                    Note.NoteDate nd = getNoteDate();
+                    Note.NoteTime nt = mPickerPopup.GetSetTime();
+                    Note.NoteDate nd = mPickerPopup.GetSetDate();
                     note.SetReminder(nt, nd);
                 }
                 if(mEditingNote){
@@ -161,26 +161,5 @@ public class NotePopup extends PopupWindow {
         setWidth((int)(screenSize.x * POPUP_WIDTH));
         //setWidth(getContentView().findViewById(R.id.new_note_layout).getMeasuredWidth());
         setHeight((int)(screenSize.y * POPUP_HEIGHT));
-    }
-
-    private Note.NoteTime getNoteTime(){
-        Note.NoteTime nt = new Note.NoteTime();
-        if(Build.VERSION.SDK_INT >= 23) {
-            //nt.hour = mTimePicker.getHour();
-            //nt.minute = mTimePicker.getMinute();
-        }
-        else {
-            //nt.hour = mTimePicker.getCurrentHour();
-            //nt.minute = mTimePicker.getCurrentMinute();
-        }
-        return nt;
-    }
-
-    private Note.NoteDate getNoteDate(){
-        Note.NoteDate nd = new Note.NoteDate();
-        //nd.day = mDatePicker.getDayOfMonth();
-        //nd.month = mDatePicker.getMonth();
-        //nd.year = mDatePicker.getYear();
-        return nd;
     }
 }

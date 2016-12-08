@@ -21,6 +21,9 @@ public class PickerPopup extends PopupWindow {
     private static final float POPUP_WIDTH = 0.8f;
     private static final float POPUP_HEIGHT = 0.7f;
 
+    private TimePicker mTimePicker;
+    private DatePicker mDatePicker;
+
     private Context mContext;
     private MainActivity mActivity;
 
@@ -28,25 +31,46 @@ public class PickerPopup extends PopupWindow {
         mActivity = mainActivity;
         mContext = mainActivity.getBaseContext();
         setupPopupWindow();
+        setupPickers();
     }
 
     public void Show(boolean timePicker){
         LinearLayout layout = (LinearLayout)getContentView().findViewById(R.id.picker_view);
         layout.removeAllViews();
         if(timePicker){
-            TimePicker tp = new TimePicker(mContext);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            tp.setLayoutParams(params);
-            layout.addView(tp);
+            layout.addView(mTimePicker);
         } else{
-            DatePicker dp = new DatePicker(mContext);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            dp.setLayoutParams(params);
-            layout.addView(dp);
+
+            layout.addView(mDatePicker);
         }
         showAtLocation(mActivity.findViewById(R.id.content_main), Gravity.CENTER, 0,0);
+    }
+
+    public Note.NoteDate GetSetDate(){
+        Note.NoteDate nd = new Note.NoteDate();
+        nd.day = mDatePicker.getDayOfMonth();
+        nd.month = mDatePicker.getMonth();
+        nd.year = mDatePicker.getYear();
+        return nd;
+    }
+
+    public Note.NoteTime GetSetTime(){
+        Note.NoteTime nt = new Note.NoteTime();
+        nt.hour = mTimePicker.getCurrentHour();
+        nt.minute = mTimePicker.getCurrentMinute();
+        return nt;
+    }
+
+    private void setupPickers(){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        mTimePicker = new TimePicker(mContext);
+        mTimePicker.setLayoutParams(params);
+        mTimePicker.setIs24HourView(true);
+
+        mDatePicker = new DatePicker(mContext);
+        mDatePicker.setLayoutParams(params);
     }
 
     private void setupPopupWindow(){
