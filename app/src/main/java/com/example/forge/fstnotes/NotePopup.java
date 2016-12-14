@@ -83,6 +83,7 @@ public class NotePopup extends PopupWindow {
 
     private void setPickersToCurrent(){
         Calendar curr =  Calendar.getInstance();
+
     }
 
     private void setReminderEnabled(boolean enabled){

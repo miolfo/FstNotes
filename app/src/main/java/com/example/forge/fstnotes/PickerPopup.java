@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -32,6 +33,14 @@ public class PickerPopup extends PopupWindow {
         mContext = mainActivity.getBaseContext();
         setupPopupWindow();
         setupPickers();
+
+        Button okButton = (Button)getContentView().findViewById(R.id.ok_button);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     public void Show(boolean timePicker){
