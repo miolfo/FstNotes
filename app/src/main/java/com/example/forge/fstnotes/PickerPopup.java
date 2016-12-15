@@ -25,10 +25,12 @@ public class PickerPopup extends PopupWindow {
     private TimePicker mTimePicker;
     private DatePicker mDatePicker;
 
+    private NotePopup mParentPopup;
     private Context mContext;
     private MainActivity mActivity;
 
-    public PickerPopup(MainActivity mainActivity){
+    public PickerPopup(MainActivity mainActivity, NotePopup parent){
+        mParentPopup = parent;
         mActivity = mainActivity;
         mContext = mainActivity.getBaseContext();
         setupPopupWindow();
@@ -38,6 +40,7 @@ public class PickerPopup extends PopupWindow {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mParentPopup.notifyPickersChanged();
                 dismiss();
             }
         });

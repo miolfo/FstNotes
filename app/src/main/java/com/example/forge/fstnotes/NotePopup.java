@@ -51,7 +51,7 @@ public class NotePopup extends PopupWindow {
         mCancelButton = (Button)getContentView().findViewById(R.id.cancel_new_note);
         mDatePickerButton = (Button)getContentView().findViewById(R.id.date_picker_button);
         mTimePickerButton = (Button)getContentView().findViewById(R.id.time_picker_button);
-        mPickerPopup = new PickerPopup(mActivity);
+        mPickerPopup = new PickerPopup(mActivity, this);
         setupButtonListeners();
     }
 
@@ -69,16 +69,23 @@ public class NotePopup extends PopupWindow {
         //If the note has a reminder, set pickers to those values
         if(editable.HasReminder()) {
             setReminderEnabled(true);
-            //mTimePicker.setCurrentHour(editable.GetNoteTime().hour);
-            //mTimePicker.setCurrentMinute(editable.GetNoteTime().minute);
             Note.NoteDate nd = editable.GetNoteDate();
-            //mDatePicker.updateDate(nd.year, nd.month, nd.day);
         }
         //If no reminder was set, set current date to pickers
         else{
             setReminderEnabled(false);
             setPickersToCurrent();
         }
+    }
+
+    /**
+     * Called whenever the picker popup window is closed by pressing ok
+     */
+    public void notifyPickersChanged(){
+        Note.NoteDate nd = mPickerPopup.GetSetDate();
+        Note.NoteTime nt = mPickerPopup.GetSetTime();
+        mDatePickerButton.setText(nd.day + "/" + (nd.month+1) + "/" + nd.year);
+        mTimePickerButton.setText(nt.hour + ":" + nt.minute);
     }
 
     private void setPickersToCurrent(){
