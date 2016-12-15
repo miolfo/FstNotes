@@ -3,6 +3,8 @@
     package="com.example.forge.fstnotes">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application><![CDATA[
         android:allowBackup="true"
@@ -39,6 +41,12 @@
                 android:resource="@xml/fstnote_appwidget_info" />
         </receiver>
         <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".FstBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

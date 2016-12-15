@@ -131,7 +131,7 @@ public class NotePopup extends PopupWindow {
                 dismiss();
                 //Empty the text input field
                 mEditText.setText("");
-                mReminderSetCheck.setChecked(false);
+                setReminderEnabled(false);
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +140,7 @@ public class NotePopup extends PopupWindow {
                 dismiss();
                 //Empty the text input field
                 mEditText.setText("");
-                mReminderSetCheck.setChecked(false);
+                setReminderEnabled(false);
             }
         });
         mDatePickerButton.setOnClickListener(mPickerButtonClicked);

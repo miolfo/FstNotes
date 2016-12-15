@@ -133,7 +133,6 @@ public class Note {
         int i2 = mRandom.nextInt();
         noteId = i1 | i2;
         String filename = UUID.randomUUID().toString();
-        //Todo: Check that the filename and/or id doesn't already exist to avoid overwriting
         return (filename + ".fnote");
     }
 }
