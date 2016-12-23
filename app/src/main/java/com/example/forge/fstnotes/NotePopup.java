@@ -89,8 +89,8 @@ public class NotePopup extends PopupWindow {
     public void notifyPickersChanged(){
         Note.NoteDate nd = mPickerPopup.GetSetDate();
         Note.NoteTime nt = mPickerPopup.GetSetTime();
-        mDatePickerButton.setText(nd.day + "/" + (nd.month+1) + "/" + nd.year);
-        mTimePickerButton.setText(nt.hour + ":" + nt.minute);
+        mDatePickerButton.setText(Util.padDateZeros(nd.day) + "/" + Util.padDateZeros(nd.month+1) + "/" + Util.padDateZeros(nd.year));
+        mTimePickerButton.setText(Util.padDateZeros(nt.hour) + ":" + Util.padDateZeros(nt.minute));
     }
 
     private void setPickersToCurrent(){

@@ -61,7 +61,7 @@ public class Util {
     }
 
     //Pad date and month with a zero
-    private static String padDateZeros(int n){
+    public static String padDateZeros(int n){
         String s = String.valueOf(n);
         if(s.length() == 1) return "0" + s;
         else return s;
