@@ -58,6 +58,15 @@ public class PickerPopup extends PopupWindow {
         showAtLocation(mActivity.findViewById(R.id.content_main), Gravity.CENTER, 0,0);
     }
 
+    public void SetTimePickerTime(Note.NoteTime noteTime){
+        mTimePicker.setCurrentHour(noteTime.hour);
+        mTimePicker.setCurrentMinute(noteTime.minute);
+    }
+
+    public void SetDatePickerDate(Note.NoteDate noteDate){
+        mDatePicker.updateDate(noteDate.year, noteDate.month, noteDate.day);
+    }
+
     public Note.NoteDate GetSetDate(){
         Note.NoteDate nd = new Note.NoteDate();
         nd.day = mDatePicker.getDayOfMonth();

@@ -53,6 +53,7 @@ public class NotePopup extends PopupWindow {
         mTimePickerButton = (Button)getContentView().findViewById(R.id.time_picker_button);
         mPickerPopup = new PickerPopup(mActivity, this);
         setupButtonListeners();
+        setPickersToCurrent();
     }
 
     public void Show(){
@@ -70,6 +71,10 @@ public class NotePopup extends PopupWindow {
         if(editable.HasReminder()) {
             setReminderEnabled(true);
             Note.NoteDate nd = editable.GetNoteDate();
+            Note.NoteTime nt = editable.GetNoteTime();
+            mPickerPopup.SetDatePickerDate(nd);
+            mPickerPopup.SetTimePickerTime(nt);
+            notifyPickersChanged();
         }
         //If no reminder was set, set current date to pickers
         else{
@@ -90,7 +95,16 @@ public class NotePopup extends PopupWindow {
 
     private void setPickersToCurrent(){
         Calendar curr =  Calendar.getInstance();
-
+        Note.NoteDate nd = new Note.NoteDate();
+        nd.year = curr.get(Calendar.YEAR);
+        nd.month = curr.get(Calendar.MONTH);
+        nd.day = curr.get(Calendar.DAY_OF_MONTH);
+        Note.NoteTime nt = new Note.NoteTime();
+        nt.hour = curr.get(Calendar.HOUR_OF_DAY);
+        nt.minute = curr.get(Calendar.MINUTE);
+        mPickerPopup.SetDatePickerDate(nd);
+        mPickerPopup.SetTimePickerTime(nt);
+        notifyPickersChanged();
     }
 
     private void setReminderEnabled(boolean enabled){
